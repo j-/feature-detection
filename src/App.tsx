@@ -1,4 +1,5 @@
 import { useMemo, type FC } from 'react';
+import { PermissionState } from './PermissionState';
 
 interface FeaturePolicy {
   allowedFeatures(): string[];
@@ -43,7 +44,7 @@ export const App: FC = () => {
       return null;
     }
   }, []);
-  
+
   return (
     <>
       <table>
@@ -51,14 +52,16 @@ export const App: FC = () => {
           <tr>
             <th>Feature name</th>
             <th>Allowed?</th>
+            <th>State</th>
           </tr>
         </thead>
 
         <tbody>
           {features?.map((feature) => (
             <tr key={feature}>
-              <td>{feature}</td>
+              <td><code>{feature}</code></td>
               <td>{allowedFeatures?.includes(feature) ? '✅' : '❌'} {document.featurePolicy?.getAllowlistForFeature(feature)}</td>
+              <td><PermissionState feature={feature} /></td>
             </tr>
           ))}
         </tbody>
